@@ -21,13 +21,51 @@ provider:
   # the following line. Also, make sure to not
   # commit your .env.
   #
-  #environment:
-  #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
+  environment:
+   tableName: emy-notes
+ #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
+  
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:DescribeTable
+      Resource: "arn:aws:dynamodb:ap-east-1:*:*"
+
 
 functions:
-  hello:
-    handler: handler.hello
+  create:
+    handler: create.main
     events:
       - http:
-          path: hello
+          path: emy-notes
+          method: post
+  get:
+    handler: get.main
+    events:
+      - http:
+          path: emy-notes/{id}
           method: get
+  list:
+    handler: list.main
+    events:
+      - http:
+          path: emy-notes
+          method: get
+  update:
+    handler: update.main
+    events:
+      - http:
+          path: emy-notes/{id}
+          method: put
+  delete:
+    handler: delete.main
+    events:
+      - http:
+          path: emy-notes/{id}
+          method: delete
