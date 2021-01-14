@@ -45,27 +45,33 @@ functions:
       - http:
           path: emy-notes
           method: post
+          authorizer: aws_iam
   get:
     handler: get.main
     events:
       - http:
           path: emy-notes/{id}
           method: get
+          authorizer: aws_iam
   list:
     handler: list.main
     events:
       - http:
           path: emy-notes
           method: get
+          authorizer: aws_iam   
   update:
     handler: update.main
     events:
       - http:
           path: emy-notes/{id}
           method: put
+          authorizer: aws_iam
   delete:
     handler: delete.main
     events:
       - http:
           path: emy-notes/{id}
           method: delete
+          authorizer: aws_iam
+          
